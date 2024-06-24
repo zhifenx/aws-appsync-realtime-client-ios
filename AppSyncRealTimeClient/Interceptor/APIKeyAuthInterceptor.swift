@@ -28,7 +28,10 @@ public class APIKeyAuthInterceptor: AuthInterceptor, AuthInterceptorAsync {
         _ request: AppSyncConnectionRequest,
         for endpoint: URL
     ) -> AppSyncConnectionRequest {
-        let host = endpoint.host!
+        var host = endpoint.host!
+        if host == "zp6qliiqbbgxlb6i2jjgekwnia.appsync-realtime-api.cn-northwest-1.amazonaws.com.cn" {
+            host = "zp6qliiqbbgxlb6i2jjgekwnia.appsync-api.cn-northwest-1.amazonaws.com.cn"
+        }
         let authHeader = APIKeyAuthenticationHeader(apiKey: apiKey, host: host)
         let base64Auth = AppSyncJSONHelper.base64AuthenticationBlob(authHeader)
 
@@ -49,7 +52,10 @@ public class APIKeyAuthInterceptor: AuthInterceptor, AuthInterceptorAsync {
     }
 
     public func interceptMessage(_ message: AppSyncMessage, for endpoint: URL) -> AppSyncMessage {
-        let host = endpoint.host!
+        var host = endpoint.host!
+        if host == "zp6qliiqbbgxlb6i2jjgekwnia.appsync-realtime-api.cn-northwest-1.amazonaws.com.cn" {
+            host = "zp6qliiqbbgxlb6i2jjgekwnia.appsync-api.cn-northwest-1.amazonaws.com.cn"
+        }
         switch message.messageType {
         case .subscribe:
             let authHeader = APIKeyAuthenticationHeader(apiKey: apiKey, host: host)
